@@ -5,7 +5,9 @@ if(strlen($_SESSION['username'])==0)
   { 
 header('location:index');
 }
-else{  
+else{
+$currentTime = date( 'Y-m-d h:i:s', time () );
+
  include('db/config.php');
 include('db/calDB.php');
 $connect = new PDO('mysql:host=localhost;dbname=carpull', 'root', '123456');
@@ -66,10 +68,26 @@ if (isset($_POST['submit'])) {
         //$days2 = $seconds/(60*60*24);
   //Start Time Subtraction and convert to days.
 
+        $currentTime = date( 'Y-m-d h:i:s', time () );   
+      $ts3   =   strtotime($currentTime);
+      $ts4    =   strtotime($start_book);
+      $seconds    = abs($ts3 - $ts4); # difference will always be positive
+      $afterdays = round($seconds/(60*60*24));
+
         if ($days>=7) {
             
        $_SESSION['error']="7";
         }
+
+        elseif( $afterdays >= '30')
+                {
+                  $_SESSION['error']="30d";
+                }
+
+        elseif(date('$start_book') <= date('Y-m-d'))
+                {
+                  $_SESSION['error']="pre";
+                }
 
         else{
 
@@ -86,6 +104,7 @@ if (isset($_POST['submit'])) {
                    
                 }
 
+                
                 else
                 {
 
@@ -234,6 +253,25 @@ if (isset($_POST['submit'])) {
 
                 </script>
 
+<!-- <script>
+            function userAvailability() {
+                $("#loaderIcon").show();
+                jQuery.ajax({
+                    url: "check_date.php",
+                    data: 'check_value=' + $("#check_value").val(),
+                    type: "POST",
+                    success: function(data) {
+                        $("#user-availability-status1").html(data);
+                        $("#loaderIcon").hide();
+                    },
+                    error: function() {}
+                });
+            }
+        </script>
+ -->
+
+
+
     <!--== Header Area End ==-->
   </head>
   <body>
@@ -248,38 +286,68 @@ if (isset($_POST['submit'])) {
 					           <div class="login-form">
                       <h3>Car Booking Info.</h3> 
 
-          						<?php if ($_SESSION['error']=="") {
+          						<?php 
+                      if ($_SESSION['error']=="") 
+                      {
           						  echo htmlentities($_SESSION['error']="");
 
-          						}if($_SESSION['error']=="booked"){?>
+          						}
+                      if($_SESSION['error']=="booked")
+                        {?>
           						<div class="alert">
           						  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
           						  <strong>Sorry!</strong> This Car Booked By Another User!!!.
           						</div>
           						<?php
           						echo htmlentities($_SESSION['error']="");
-          						 }if($_SESSION['error']=="7"){ ?>
+          						 }
+                       if($_SESSION['error']=="7")
+                        { ?>
           						<div class="alert">
           						  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
           						  <strong>Sorry!</strong> You can not Book more than Saven days !!.
           						</div>
           						<?php 
           						echo htmlentities($_SESSION['error']="");
-          						 } ?>
+          						 } 
+
+                       if($_SESSION['error']=="pre")
+                        { ?>
+                      <div class="alert">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                        <strong>Sorry!</strong> You can not Book Previous Date !!.
+                      </div>
+                      <?php 
+                      echo htmlentities($_SESSION['error']="");
+                       } 
+
+                       if($_SESSION['error']=="30d")
+                        { ?>
+                      <div class="alert">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                        <strong>Sorry!</strong> You can not Book after 30 Dates from Now!!.
+                      </div>
+                      <?php 
+                      echo htmlentities($_SESSION['error']="");
+                       } 
+              
+                       ?>
 
               <form action="" method="POST">
                 
 
                   <div class="row">
                     <div class="col-md-6">
+                      
                       <label>Pic-Up DATE:
-                          <input type="date"  name="start_date" placeholder="Pick Up Date" required />
+                          <input type="date"  name="start_date" id="check_value" onBlur="userAvailability()" placeholder="Pick Up Date" required />
+                         <span id="user-availability-status1" style="font-size:12px;"></span>
                        </label>
                     </div>
                     <div class="col-md-6" >
-                      <span id="user-availability-status1" style="font-size:12px;"></span>
+                      
                         <label>Return DATE: 
-                            <input type="date"  name="end_date" id="check_value" onBlur="userAvailability()" placeholder="Return Date" required />                                        
+                            <input type="date"  name="end_date"   placeholder="Return Date" required />                                        
                         </label>                                            
                     </div>
                   </div>

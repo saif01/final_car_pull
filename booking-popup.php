@@ -49,9 +49,17 @@ if (isset($_POST['submit'])) {
             </script> <?php
         }
 
+        elseif(date('$start_book') <= date('Y-m-d'))
+                {
+                  ?> <script>
+            alert(' You can not Book Previous date !!!!');
+            </script> <?php
+                }
+
+        
         else{
 
-            $sql=mysqli_query($con,"SELECT * FROM `car_booking` WHERE `car_id` ='$car_id' AND (`start_date` BETWEEN '$start_book' AND '$end_book' OR `end_date` BETWEEN '$start_book' AND '$end_book')");
+            $sql=mysqli_query($con,"SELECT * FROM `car_booking` WHERE `car_id` ='$car_id' AND (date(`start_date`) BETWEEN date('$start_book') AND date('$end_book') OR date(`end_date`) BETWEEN date('$start_book') AND date('$end_book') )");
 
                 $result=mysqli_num_rows($sql);
 
