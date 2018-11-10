@@ -41,6 +41,11 @@ if (isset($_POST['submit'])) {
         $days = round($seconds/(60*60*24));
         //$days2 = $seconds/(60*60*24);
   //Start Time Subtraction and convert to days.
+        $currentTime = date( 'Y-m-d h:i:s', time () );   
+      $ts3   =   strtotime($currentTime);
+      $ts4    =   strtotime($start_book);
+      $seconds    = abs($ts3 - $ts4); # difference will always be positive
+      $afterdays = round($seconds/(60*60*24));
 
         if ($days>=7) {
             
@@ -48,6 +53,13 @@ if (isset($_POST['submit'])) {
             alert('You can not Book More than Saven days   !!!!');
             </script> <?php
         }
+
+         elseif( $afterdays >= '30')
+                {
+                  ?> <script>
+            alert('You can not Book after 30 Dates from Now!!');
+            </script> <?php
+                }
 
         elseif(date('$start_book') <= date('Y-m-d'))
                 {
