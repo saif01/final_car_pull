@@ -10,7 +10,7 @@ include('../db/config.php');
 ?>
     <!DOCTYPE html>
     <html lang="en">
-
+ 
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -60,7 +60,7 @@ include('../db/config.php');
                                                         <th>Office ID</th>
 
                                                         <th>Actions</th>
-                                                        <th>Actions</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -87,19 +87,22 @@ include('../db/config.php');
                                                             <?php
                                          if($row['user_status']==1)
                                          {?>
-                                                                <a href="user-status.php?h_user_id=<?php echo htmlentities($row['user_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** User **?');"><button class="btn btn-primary"> <i class="icon-ok-circle"> Active</i></button>
+                                <a href="user-status.php?h_user_id=<?php echo htmlentities($row['user_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** User **?');" title="Hide"> <i class="mdi mdi-eye text-success icon-lg"></i></a>
                                             
                                         <?php } else {?>
 
-                                            <a href="user-status.php?s_user_id=<?php echo htmlentities($row['user_id']);?>" onclick="return confirm('Are you sure you want to Active this ** User **?');"><button class="btn btn-danger"><i class="icon-ban-sign"> Deactive </i></button> 
+                                    <a href="user-status.php?s_user_id=<?php echo htmlentities($row['user_id']);?>" onclick="return confirm('Are you sure you want to Active this ** User **?');" title="Show"> <i class="mdi mdi-eye-off text-danger icon-lg"></i></a> 
                                             <?php } ?>
                                           
 
-								</td>
-								<td class="center">
+					<a href="user-edit?user_id=<?php echo htmlentities($row['user_id']);?>" title="Edit"
+                    >
+                    <i class="mdi mdi-pencil-box-outline text-warning icon-lg"></i>  
+                  </a>
 									
-                                                                <a href="user-delete.php?user_id=<?php echo $row['user_id']?>" onClick="return confirm('Are you sure you want to delete???')"><button type="button" class="btn btn-danger" ><i class="icon-remove-sign"> Delete</i></button></a>
-                                                                </a>
+                        <a href="user-delete.php?user_id=<?php echo $row['user_id']?>" onClick="return confirm('Are you sure you want to delete???')" title="Delete"> <i class="mdi mdi-close-box-outline text-danger icon-lg"></i></a>
+
+                                                            
                                                         </td>
                                                     </tr>
                                                     <?php } ?>

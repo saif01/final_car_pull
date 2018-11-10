@@ -89,19 +89,19 @@ include('../db/config.php');
                                                             <?php
                                          if($row['admin_status']==1)
                                          {?>
-                                                                <a href="admin-status.php?h_admin_id=<?php echo htmlentities($row['admin_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** Admin **?');"><button class="btn btn-primary"> <i class="icon-ok-circle"> Active</i></button>
+                                     <a href="admin-status.php?h_admin_id=<?php echo htmlentities($row['admin_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** Admin **?');" title="Hide"> <i class="mdi mdi-eye text-success icon-lg"></i></a>
                                             
                                         <?php } else {?>
 
-                                            <a href="admin-status.php?s_admin_id=<?php echo htmlentities($row['admin_id']);?>" onclick="return confirm('Are you sure you want to Active this ** Admin **?');"><button class="btn btn-danger"><i class="icon-ban-sign"> Deactive </i></button> 
+                                            <a href="admin-status.php?s_admin_id=<?php echo htmlentities($row['admin_id']);?>" onclick="return confirm('Are you sure you want to Active this ** Admin **?');" title="Show"> <i class="mdi mdi-eye-off text-danger icon-lg"></i></a>
                                             <?php } ?>
                                           
 
                 </td>
                 <td class="center">
                                     
-                     <a href="admin-delete.php?admin_id=<?php echo $row['admin_id']?>" onClick="return confirm('Are you sure you want to delete.???')"><button type="button" class="btn btn-danger" ><i class="icon-remove-sign"> Delete</i></button></a>
-                                                                </a>
+                     <a href="admin-delete.php?admin_id=<?php echo $row['admin_id']?>" onClick="return confirm('Are you sure you want to delete.???')" title="Delete"> <i class="mdi mdi-close-box-outline text-danger icon-lg"></i></a>
+                                                                
                                                         </td>
                                                     </tr>
                                                     <?php } ?>

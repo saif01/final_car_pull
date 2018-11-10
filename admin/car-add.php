@@ -40,7 +40,7 @@ $query=mysqli_query($con," INSERT INTO `tbl_car`(`car_name`, `car_namePlate`, `c
 ?>
     <script>
         alert('Update successfull.  !');
-        window.open('car-add.php', '_self');
+        window.open('car-all.php', '_self');
     </script>
     <?php } ?>
 

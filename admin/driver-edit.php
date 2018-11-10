@@ -9,6 +9,7 @@ else{
 
 include('../db/config.php');
 
+
 if (isset($_POST['submit'])) {
 
 $driver_name=$_POST['driver_name'];
@@ -20,15 +21,14 @@ $driver_license=$_POST['driver_license'];
 
 $driver_st=1;
 
-
+$driver_id=$_GET['driver_id'];
 //$compfile=$_FILES["compfile"]["name"]; 
-$driver_img=$_FILES["driver_img"]["name"];
+//$driver_img=$_FILES["driver_img"]["name"];
 
 
-move_uploaded_file($_FILES["driver_img"]["tmp_name"],"p_img/driverimg/".$_FILES["driver_img"]["name"]);
+//move_uploaded_file($_FILES["driver_img"]["tmp_name"],"p_img/driverimg/".$_FILES["driver_img"]["name"]);
 
- $query=mysqli_query($con,"INSERT INTO `car_driver`(`car_id`, `driver_name`, `driver_phone`, `driver_img`, `driver_license`, `driver_nid`, `driver_status`) VALUES ('$for_car','$driver_name','$driver_phone','$driver_img','$driver_license','$driver_nid','$driver_st')");
-
+ $query=mysqli_query($con,"UPDATE `car_driver` SET `driver_name`='$driver_name',`driver_phone`='$driver_phone',`driver_license`='$driver_license',`driver_nid`='$driver_nid',`driver_status`='$driver_st' WHERE `driver_id` ='$driver_id'");
 
 ?>
     <script>
@@ -98,6 +98,14 @@ move_uploaded_file($_FILES["driver_img"]["tmp_name"],"p_img/driverimg/".$_FILES[
                                         <button class="card-title btn btn-outline btn-block ">Driver Add Form</button>
                                         <form class="form-sample" action="" method="post" enctype="multipart/form-data">
 
+<?php 
+                                            $driver_id=$_GET['driver_id'];
+
+$query=mysqli_query($con,"SELECT * FROM `car_driver` WHERE `driver_id`='$driver_id' ");
+
+$row=$query->fetch_assoc();
+
+?>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
@@ -105,41 +113,30 @@ move_uploaded_file($_FILES["driver_img"]["tmp_name"],"p_img/driverimg/".$_FILES[
                                                         <label class="col-sm-3 col-form-label">Driver Name </label>
                                                         <div class="col-sm-9">
 
-                                                            <input type="text" id="check_value" onBlur="userAvailability()" name="driver_name" class="form-control" required>
+                                                            <input type="text" id="check_value" onBlur="userAvailability()" name="driver_name" class="form-control" value="<?php echo htmlentities($row['driver_name']); ?>" required>
 
                                                             <span id="user-availability-status1" style="font-size:12px;"></span>
 
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+												 <div class="col-md-6">
                                                     <div class="form-group row">
-                                                        <label class="col-sm-3 col-form-label">For Car</label>
+                                                        <label class="col-sm-3 col-form-label">Driver License</label>
                                                         <div class="col-sm-9">
-                                                            <select name="for_car" class="form-control" required>
-  <option value="">Select Car For Driver </option>
-<?php
-  $query2=mysqli_query($con,"SELECT tbl_car.car_id,tbl_car.car_name,tbl_car.car_namePlate  FROM tbl_car LEFT JOIN car_driver ON ( tbl_car.car_id = car_driver.car_id) WHERE car_driver.car_id IS NULL");
-
-      while ($row2 = mysqli_fetch_array($query2))
-      {
-echo "<option value='". $row2['car_id'] ."'>" .$row2['car_name'] ." -- ". $row2['car_namePlate']. "</option>" ;
-}
-?>
-
-</select>
+                                                            <input type="text" name="driver_license" class="form-control" placeholder="Enter Driver License" value="<?php echo htmlentities($row['driver_license']); ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
+											</div>
 
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <label class="col-sm-3 col-form-label">Driver Contract</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" name="driver_phone" class="form-control" placeholder="Enter Driver Phone Number" required />
+                                                            <input type="text" name="driver_phone" class="form-control" placeholder="Enter Driver Phone Number" value="<?php echo htmlentities($row['driver_phone']); ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,37 +144,19 @@ echo "<option value='". $row2['car_id'] ."'>" .$row2['car_name'] ." -- ". $row2[
                                                     <div class="form-group row">
                                                         <label class="col-sm-3 col-form-label">Driver NID</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" name="driver_nid" class="form-control" placeholder="Enter Driver NID" required />
+                                                            <input type="text" name="driver_nid" class="form-control" placeholder="Enter Driver NID" value="<?php echo htmlentities($row['driver_nid']); ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-3 col-form-label">Driver License</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" name="driver_license" class="form-control" placeholder="Enter Driver License" required/>
-                                                        </div>
-                                                    </div>
-                                                </div>
+											
+                                            
+                                               
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-3 col-form-label">Driver Image</label>
-                                                        <div class="col-sm-9">
-
-                                                            <input name="driver_img" type="file" class="form-control" required />
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
+                                               
                                             <div class="row">
                                                 <div class="col-12 text-center">
-                                                    <button type="submit" name="submit" class="btn btn-outline-success btn-block btn-rounded">Driver Registration</button>
+                                                    <button type="submit" name="submit" class="btn btn-outline-success btn-block btn-rounded">Info Update </button>
                                                     <button class="btn btn-light btn-block btn-rounded ">Cancel</button>
                                                 </div>
                                             </div>

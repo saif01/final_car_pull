@@ -73,7 +73,6 @@ include('../db/config.php');
                                                             <th>Name</th>
                                                             <th>Car Img</th>
                                                             <th>Name&number</th>
-
                                                             <th>Phone</th>
                                                             <th>Actions</th>
 
@@ -107,13 +106,13 @@ include('../db/config.php');
                 $row2=$query2->fetch_assoc();   
 
                 ?>
-                                                                <a href="javascript:void(0);" onClick="popUpWindow('car-profile.php?car_id=<?php echo htmlentities($row['car_id']);?>');" title="View Car Info.">
+                    <a href="javascript:void(0);" onClick="popUpWindow('car-profile.php?car_id=<?php echo htmlentities($row['car_id']);?>');" title="View Car Info.">
                  <img src="p_img/carImg/<?php echo($row2['car_img1']);?>" class="img-responsive" alt="Not Assign" height="42" width="70"/> </a>
 
                                                             </td>
                                                             <td>
 
-                                                                <a href="javascript:void(0);" onClick="popUpWindow('car-profile.php?car_id=<?php echo htmlentities($row['car_id']);?>');" title="View Car Info.">
+                                                                 <a href="javascript:void(0);" onClick="popUpWindow('car-profile.php?car_id=<?php echo htmlentities($row['car_id']);?>');" title="View Car Info.">
 
                                                                     <?php echo htmlentities($row2['car_name'].'--'.$row2['car_namePlate']); ?>
                                                             </td>
@@ -130,18 +129,21 @@ include('../db/config.php');
                                                                 <?php
                                          if($row['driver_status']==1)
                                          {?>
-                                                                    <a href="driver-status.php?h_user_id=<?php echo htmlentities($row['driver_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** Driver **?');"><button class="btn btn-primary"> <i class="icon-ok-circle"> Active</i></button>
+                                    <a href="driver-status.php?h_user_id=<?php echo htmlentities($row['driver_id']);?>" onclick="return confirm('Are you sure you want to Deactive this ** Driver **?');" title="Hide"> <i class="mdi mdi-eye text-success icon-lg"></i></a>
                                             
                                         <?php } else {?>
 
-                                            <a href="driver-status.php?s_user_id=<?php echo htmlentities($row['driver_id']);?>" onclick="return confirm('Are you sure you want to Active this ** Driver **?');"><button class="btn btn-danger"><i class="icon-ban-sign"> Deactive </i></button> 
+                                            <a href="driver-status.php?s_user_id=<?php echo htmlentities($row['driver_id']);?>" onclick="return confirm('Are you sure you want to Active this ** Driver **?');" title="Show"> <i class="mdi mdi-eye-off text-danger icon-lg"></i></a> 
                                             <?php } ?>
                                           
 
-                  
+                  <a href="driver-edit?driver_id=<?php echo htmlentities($row['driver_id']);?>" title="Edit"
+                    >
+                    <i class="mdi mdi-pencil-box-outline text-warning icon-lg"></i>  
+                  </a>
                   
                     
-                   <a href="driver-delete.php?driver_id=<?php echo $row['driver_id']?>" onClick="return confirm('Are you sure you want to delete???')"><button type="button" class="btn btn-danger" ><i class="icon-remove-sign"> Delete</i></button></a>
+                   <a href="driver-delete.php?driver_id=<?php echo $row['driver_id']?>" onClick="return confirm('Are you sure you want to delete???')" title="Delete"> <i class="mdi mdi-close-box-outline text-danger icon-lg"></i></a>
 
                                                             </td>
                                                     </tr>
